@@ -570,6 +570,10 @@ bool whitgl_sys_init(whitgl_sys_setup* setup)
 			glfw_mode = GLFW_CURSOR_NORMAL; break;
 	}
 	glfwSetInputMode (_window, GLFW_CURSOR, glfw_mode);
+        if (glfw_mode == GLFW_CURSOR_DISABLED) {
+            if (glfwRawMouseMotionSupported())
+                glfwSetInputMode(_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+        }
 
 	for(i=0; i<WHITGL_IMAGE_MAX; i++)
 		images[i].id = -1;
