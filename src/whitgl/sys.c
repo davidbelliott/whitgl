@@ -1081,25 +1081,33 @@ void whitgl_sys_draw_model(whitgl_int id, whitgl_shader_slot shader, whitgl_fmat
 
 	#define BUFFER_OFFSET(i) ((void*)(i))
 	GLint posAttrib = glGetAttribLocation( shaderProgram, "position" );
-	GL_CHECK( glVertexAttribPointer( posAttrib, 3, GL_FLOAT, GL_FALSE, 9*sizeof(float), 0 ) );
+	GL_CHECK( glVertexAttribPointer( posAttrib, 3, GL_FLOAT, GL_FALSE, 11*sizeof(float), 0 ) );
 	GL_CHECK( glEnableVertexAttribArray( posAttrib ) );
+
+	GLint texturePosAttrib = glGetAttribLocation( shaderProgram, "texturepos" );
+	if(texturePosAttrib > -1) {
+            GL_CHECK( glVertexAttribPointer( texturePosAttrib, 2, GL_FLOAT, GL_FALSE, 11*sizeof(float), BUFFER_OFFSET(sizeof(float)*3) ) );
+            GL_CHECK( glEnableVertexAttribArray( texturePosAttrib ) );
+        }
 
 	GLint vertexColor = glGetAttribLocation( shaderProgram, "vertexColor" );
 	if(vertexColor > -1)
 	{
-		GL_CHECK( glVertexAttribPointer( vertexColor, 3, GL_FLOAT, GL_FALSE, 9*sizeof(float), BUFFER_OFFSET(sizeof(float)*3) ) );
+		GL_CHECK( glVertexAttribPointer( vertexColor, 3, GL_FLOAT, GL_FALSE, 11*sizeof(float), BUFFER_OFFSET(sizeof(float)*5) ) );
 		GL_CHECK( glEnableVertexAttribArray( vertexColor ) );
 	}
 
 	GLint vertexNormal = glGetAttribLocation( shaderProgram, "vertexNormal" );
 	if(vertexNormal > -1)
 	{
-		GL_CHECK( glVertexAttribPointer( vertexNormal, 3, GL_FLOAT, GL_FALSE, 9*sizeof(float), BUFFER_OFFSET(sizeof(float)*6) ) );
+		GL_CHECK( glVertexAttribPointer( vertexNormal, 3, GL_FLOAT, GL_FALSE, 11*sizeof(float), BUFFER_OFFSET(sizeof(float)*8) ) );
 		GL_CHECK( glEnableVertexAttribArray( vertexNormal ) );
 	}
 
 	GL_CHECK( glDrawArrays( GL_TRIANGLES, 0, models[index].num_vertices ) );
 
+        if(texturePosAttrib > -1)
+                GL_CHECK( glDisableVertexAttribArray(texturePosAttrib) );
 	if(vertexColor > -1)
 		GL_CHECK( glDisableVertexAttribArray(vertexColor) );
 	if(vertexNormal > -1)
@@ -1359,6 +1367,7 @@ whitgl_bool whitgl_load_model(whitgl_int id, const char* filename)
 	FILE *src;
 	int read;
 	int readSize;
+        int n_verts;
 	src = fopen(filename, "rb");
 	if (src == NULL)
 	{
@@ -1369,6 +1378,14 @@ whitgl_bool whitgl_load_model(whitgl_int id, const char* filename)
 	if(read != sizeof(readSize))
 	{
 		WHITGL_LOG("Failed to read size from %s", filename);
+		fclose(src);
+		return false;
+	}
+
+	read = fread( &n_verts, 1, sizeof(n_verts), src );
+	if(read != sizeof(n_verts))
+	{
+		WHITGL_LOG("Failed to read number of verts from %s", filename);
 		fclose(src);
 		return false;
 	}
@@ -1383,7 +1400,7 @@ whitgl_bool whitgl_load_model(whitgl_int id, const char* filename)
 	WHITGL_LOG("Loaded data from %s", filename);
 	fclose(src);
 
-	whitgl_int num_vertices = ((readSize/sizeof(GLfloat))/3)/3;
+	whitgl_int num_vertices = (whitgl_int)n_verts;
 
 	whitgl_sys_update_model_from_data(id, num_vertices, (char*)data);
 	free(data);
@@ -1426,7 +1443,7 @@ void whitgl_sys_update_model_from_data(int id, whitgl_int num_vertices, const ch
 
 
 	GL_CHECK( glBindBuffer( GL_ARRAY_BUFFER, models[index].vbo ) );
-	GL_CHECK( glBufferData( GL_ARRAY_BUFFER, 4*9*num_vertices, data, GL_DYNAMIC_DRAW ) );
+	GL_CHECK( glBufferData( GL_ARRAY_BUFFER, 4*11*num_vertices, data, GL_DYNAMIC_DRAW ) );
 }
 
 whitgl_ivec whitgl_sys_get_image_size(whitgl_int id)
