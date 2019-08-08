@@ -57,6 +57,7 @@ def process_obj(filename):
                         faces.append(face)
                         if len(tokens) == 4:
                                 face['vertices'] = (int(tokens[2].split('/')[0]),int(tokens[3].split('/')[0]),int(tokens[0].split('/')[0]))
+                                face['texcoords'] = (int(tokens[2].split('/')[1]),int(tokens[3].split('/')[1]),int(tokens[0].split('/')[1]))
                                 face['normals'] = (int(tokens[2].split('/')[2]),int(tokens[3].split('/')[2]),int(tokens[0].split('/')[2]))
                                 face['material'] = current_material
                                 faces.append(face)
