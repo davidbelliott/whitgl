@@ -29,6 +29,8 @@ void whitgl_loop_add_positional(int id, const char* filename);
 void whitgl_loop_volume(int id, float volume);
 void whitgl_loop_set_paused(int id, bool paused);
 void whitgl_loop_seek(int id, float time);
+int whitgl_loop_tell(int id);
+int whitgl_loop_get_length(int id);
 void whitgl_loop_frequency(int id, float adjust);
 void whitgl_loop_set_listener(whitgl_fvec p, whitgl_fvec v, whitgl_float angle);
 void whitgl_loop_set_position(int id, whitgl_fvec p, whitgl_fvec v);

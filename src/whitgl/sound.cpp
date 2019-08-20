@@ -134,6 +134,24 @@ void whitgl_loop_set_paused(int id, bool paused)
 	whitgl_int index = _whitgl_get_loop_index(id);
 	loops[index].sound->setIsPaused(paused);
 }
+int whitgl_loop_tell(int id)
+{
+	whitgl_int index = _whitgl_get_loop_index(id);
+        int millis = loops[index].sound->getPlayPosition();
+	if(millis == -1) {
+		WHITGL_PANIC("failed to tell");
+        }
+        return millis;
+}
+int whitgl_loop_get_length(int id)
+{
+        whitgl_int index = _whitgl_get_loop_index(id);
+        int millis = loops[index].sound->getPlayLength();
+        if(millis == -1) {
+                WHITGL_PANIC("failed to get length");
+        }
+        return millis;
+}
 void whitgl_loop_seek(int id, float time)
 {
 	whitgl_int index = _whitgl_get_loop_index(id);
