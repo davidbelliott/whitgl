@@ -1201,37 +1201,11 @@ void whitgl_sys_draw_text(whitgl_sprite sprite, const char* string, whitgl_ivec 
 	while(*string)
 	{
 		int index = -1;
-		if(*string >= 'a' && *string <= 'z')
-			index = *string-'a';
-		if(*string >= 'A' && *string <= 'Z')
-			index = *string-'A';
-		if(*string >= '0' && *string <= '9')
-			index = *string-'0'+26;
-		if(*string == ',')
-			index = 36;
-		if(*string == '.')
-			index = 37;
-		if(*string == ':')
-			index = 38;
-		if(*string == '$')
-			index = 39;
-		if(*string == '!')
-			index = 40;
-		if(*string == '\'')
-			index = 41;
-		if(*string == '?')
-			index = 42;
-		if(*string == '-')
-			index = 43;
-		if(*string == '<')
-			index = 44;
-		if(*string == '>')
-			index = 45;
-		if(*string == ' ')
-			draw_pos.x += sprite.size.x;
+		if(*string >= ' ' && *string <= '~')
+			index = *string-' ';
 		if(index != -1)
 		{
-			whitgl_ivec frame = {index%6, index/6};
+			whitgl_ivec frame = {index%14, index/14};
 			whitgl_sys_draw_sprite(sprite, frame, draw_pos);
 			draw_pos.x += sprite.size.x;
 		}
