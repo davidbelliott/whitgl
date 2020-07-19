@@ -99,6 +99,7 @@ whitgl_ivec whitgl_ivec_scale(whitgl_ivec a, whitgl_ivec s);
 whitgl_ivec whitgl_ivec_scale_val(whitgl_ivec a, whitgl_int s);
 whitgl_ivec whitgl_ivec_divide(whitgl_ivec a, whitgl_ivec s);
 whitgl_ivec whitgl_ivec_divide_val(whitgl_ivec a, whitgl_int s);
+whitgl_int whitgl_ivec_dot(whitgl_ivec a, whitgl_ivec b);
 whitgl_int whitgl_ivec_sqmagnitude(whitgl_ivec a);
 whitgl_ivec whitgl_ivec_bound(whitgl_ivec a, whitgl_iaabb bounds);
 whitgl_bool whitgl_ivec_eq(whitgl_ivec a, whitgl_ivec b);

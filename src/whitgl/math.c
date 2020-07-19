@@ -182,6 +182,10 @@ whitgl_ivec whitgl_ivec_divide_val(whitgl_ivec a, whitgl_int s)
 	whitgl_ivec out = {a.x / s, a.y / s};
 	return out;
 }
+whitgl_int whitgl_ivec_dot(whitgl_ivec a, whitgl_ivec b)
+{
+	return a.x*b.x + a.y*b.y;
+}
 whitgl_int whitgl_ivec_sqmagnitude(whitgl_ivec a)
 {
 	return a.x * a.x + a.y * a.y;
