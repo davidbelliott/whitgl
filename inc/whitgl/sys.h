@@ -173,4 +173,6 @@ void whitgl_change_icon(const char* filename);
 
 void whitgl_grab_focus();
 
+whitgl_ivec whitgl_sys_get_screen_size();
+
 #endif // WHITGL_SYS_H_

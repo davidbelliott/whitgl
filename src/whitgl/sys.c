@@ -1543,3 +1543,11 @@ void whitgl_grab_focus()
 {
 	glfwFocusWindow(_window);
 }
+
+whitgl_ivec whitgl_sys_get_screen_size()
+{
+    int w, h;
+    glfwGetFramebufferSize(_window, &w, &h);
+    whitgl_ivec ret = {w, h};
+    return ret;
+}
